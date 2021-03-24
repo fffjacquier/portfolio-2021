@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>rethink your code!</title>
+    <meta name="description" content="Francois Jacquier, front end and javascript developer" />
+    <style>
+      html {
+        --black: #292929;
+        --red: #ff0000;
+        --grey: #595959;
+        --ff: 'Helvetica Neue', --apple-system, BlinkMacSystemFont, Ubuntu, sans-serif;
+        box-sizing: border-box;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+      body {
+        font-family: var(--ff);
+      }
+      a {
+        text-decoration: none;
+        color: var(--black);
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      svg {
+        opacity: 0;
+      }
+      .star {
+        position: absolute;
+        left: 31rem;
+      }
+      nav {
+        position: absolute;
+        left: 32rem;
+        top: 2.5rem;
+        font-size: 0.6rem;
+        display: none;
+        color: var(--grey);
+      }
+      nav ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-self: end;
+      }
+      nav ul li a {
+        font-size: 0.6rem;
+        color: var(--grey);
+        margin-right: 0.97rem;
+      }
+      section {
+        display: none;
+        position: relative;
+        top: 5rem;
+      }
+      footer {
+        display: none;
+        position: relative;
+        top: 10rem;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      li {
+        position: relative;
+      }
+      li > span,
+      li a {
+        font-size: 3rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.4s;
+      }
+      li > span {
+        color: var(--black);
+      }
+      li > span:hover {
+        color: var(--grey);
+      }
+      .active {
+        z-index: 2;
+      }
+      .clicked:after {
+        content: '\002A';
+        color: var(--grey);
+        font-weight: bold;
+        margin-left: 5px;
+      }
+      .panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-in-out;
+      }
+      .clicked + .panel {
+        margin-bottom: 3rem;
+      }
+      img.resp {
+        width: 100%;
+        height: auto;
+      }
+      h2 {
+        margin-top: 0;
+      }
+      h2 > em {
+        font-weight: lighter;
+        font-size: 1rem;
+        color: var(--grey);
+      }
+      h3 {
+        font-size: 1.02rem;
+        color: var(--grey);
+        font-variant: small-caps;
+        margin-bottom: 5px;
+      }
+      h3 + p {
+        margin-top: 0;
+      }
+      p {
+        line-height: 1.5;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+      }
+      .grid a {
+        text-decoration: underline;
+        font-size: 1rem;
+      }
+      .features ul {
+        margin-bottom: 0.5rem;
+        padding: 0 0 0 20px;
+      }
+      .features ul li.feature {
+        margin-bottom: 6px;
+      }
+      .features ul li.feature::before {
+        content: '❯';
+        position: relative;
+        left: -15px;
+        color: var(--grey);
+      }
+      .pill {
+        border: 1px solid var(--grey);
+        color: var(--black);
+        padding: 2px 12px 4px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0;
+        cursor: crosshair;
+        border-radius: 15px;
+      }
+      .keywords .pill {
+        margin-bottom: 6px;
+      }
+      .links {
+        display: flex;
+        justify-content: space-between;
+      }
+      @media (max-width: 650px) {
+        svg.star {
+          left: 20rem;
+        }
+        svg.lettersAnimation {
+          transform: scale(0.65) translateX(-130px);
+        }
+        section {
+          top: 3em;
+        }
+        nav {
+          left: 12rem;
+          top: 3.7rem;
+          font-size: 0.6rem;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+          gap: 1.4rem;
+          padding-bottom: 12rem;
+        }
+        li > span {
+          font-size: 2rem;
+        }
+        footer {
+          top: 6rem;
+        }
+        .techstack {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg class="star active" width="27" height="26" xmlns="http://www.w3.org/2000/svg">
+        <path
+          class="morpheus"
+          d="M18.9 25.08l4.69-3.36-5.32-7.28 8.54-2.8-1.75-5.46-8.54 2.8V.02h-5.74v8.96l-8.54-2.8-1.75 5.46 8.54 2.8-5.32 7.28 4.69 3.36 5.25-7.28z"
+          fill="#676669"
+          fill-rule="nonzero"
+        />
+      </svg>
+      <svg class="lettersAnimation active" width="486" height="65" xmlns="http://www.w3.org/2000/svg">
+        <title>rethink your code</title>
+        <g fill="#414040" fill-rule="nonzero" stroke="#444040" fill-opacity="0">
+          <path
+            d="M10.21 52V29.39c0-1.26.21-2.322.63-3.185.42-.863.98-1.563 1.68-2.1.7-.537 1.47-.922 2.31-1.155.84-.233 1.68-.35 2.52-.35a31.648 31.648 0 013.01.14V13.5a11.42 11.42 0 00-1.75-.14c-2.007 0-3.71.548-5.11 1.645-1.4 1.097-2.59 2.555-3.57 4.375h-.14v-5.04H.55V52h9.66z"
+            fill="none"
+          />
+          <g fill="none">
+            <path
+              d="M38.3 52.77c4.62 0 8.003-1.143 10.15-3.43 2.147-2.287 3.313-5.623 3.5-10.01h-8.68c-.28 2.38-.793 4.153-1.54 5.32-.747 1.167-1.937 1.75-3.57 1.75-.887 0-1.633-.245-2.24-.735-.607-.49-1.097-1.143-1.47-1.96s-.642-1.75-.805-2.8a21.153 21.153 0 01-.245-3.255v-3.01h19.11v-2.17c0-2.893-.187-5.518-.56-7.875-.373-2.357-1.073-4.363-2.1-6.02-1.027-1.657-2.438-2.94-4.235-3.85-1.797-.91-4.095-1.365-6.895-1.365-3.267 0-5.88.537-7.84 1.61s-3.465 2.52-4.515 4.34c-1.05 1.82-1.75 3.897-2.1 6.23a49.04 49.04 0 00-.525 7.28c0 2.38.105 4.76.315 7.14.21 2.38.782 4.527 1.715 6.44.933 1.913 2.38 3.453 4.34 4.62 1.96 1.167 4.69 1.75 8.19 1.75z"
+            />
+            <path
+              d="M43.27 28.9H33.4v-1.47c0-.887.082-1.773.245-2.66a8.651 8.651 0 01.805-2.415 4.778 4.778 0 011.505-1.75c.63-.443 1.435-.665 2.415-.665s1.785.198 2.415.595c.63.397 1.12.98 1.47 1.75.35.77.595 1.703.735 2.8.14 1.097.233 2.368.28 3.815z"
+            />
+          </g>
+          <path
+            d="M68.61 52.21c1.12 0 2.182-.035 3.185-.105A44.777 44.777 0 0174.91 52v-6.72c-.327.047-.677.082-1.05.105a17.95 17.95 0 01-1.12.035c-1.4 0-2.322-.315-2.765-.945-.443-.63-.665-1.692-.665-3.185V20.92h5.6v-6.58h-5.6V3.56h-9.66v10.78h-4.9v6.58h4.9v21.56c0 1.913.117 3.5.35 4.76.233 1.26.665 2.275 1.295 3.045.63.77 1.54 1.283 2.73 1.54 1.19.257 2.718.385 4.585.385zM87.93 52V27.01c0-4.153 1.703-6.23 5.11-6.23 1.447 0 2.497.385 3.15 1.155s.98 2.135.98 4.095V52h9.66V24.07c0-3.78-.828-6.51-2.485-8.19-1.657-1.68-4.025-2.52-7.105-2.52-4.247 0-7.303 1.61-9.17 4.83h-.14V2.02h-9.66V52h9.66z"
+            fill="none"
+          />
+          <g fill="none"><path d="M123.28 9.72V1.46h-9.66v8.26zM123.28 52V14.34h-9.66V52z" /></g>
+          <path
+            d="M139.73 52V27.01c0-4.153 1.703-6.23 5.11-6.23 1.447 0 2.497.385 3.15 1.155s.98 2.135.98 4.095V52h9.66V24.07c0-3.78-.828-6.51-2.485-8.19-1.657-1.68-4.025-2.52-7.105-2.52-2.1 0-3.967.432-5.6 1.295-1.633.863-2.963 2.228-3.99 4.095h-.14v-4.41h-9.24V52h9.66zM175.08 52V41.01l3.43-4.48L186.56 52h10.64l-12.46-22.82 10.85-14.84h-10.64l-9.73 14.07h-.14V2.02h-9.66V52zM220.79 64.11c2.24 0 4.095-.163 5.565-.49a7.553 7.553 0 003.78-2.065c1.05-1.05 1.96-2.543 2.73-4.48.77-1.937 1.575-4.468 2.415-7.595l9.1-35.14h-9.66l-4.9 26.04h-.14l-5.6-26.04H214L224.57 52c-.14 1.54-.595 2.777-1.365 3.71-.77.933-2.042 1.4-3.815 1.4-.84 0-1.68-.07-2.52-.21v7.21h3.92z"
+            fill="none"
+          />
+          <g fill="none">
+            <path
+              d="M261.53 52.77c2.753 0 5.075-.397 6.965-1.19 1.89-.793 3.418-2.018 4.585-3.675 1.167-1.657 2.007-3.722 2.52-6.195.513-2.473.77-5.32.77-8.54 0-3.313-.233-6.207-.7-8.68-.467-2.473-1.26-4.55-2.38-6.23-1.12-1.68-2.637-2.928-4.55-3.745-1.913-.817-4.317-1.202-7.21-1.155-2.753 0-5.075.432-6.965 1.295-1.89.863-3.418 2.123-4.585 3.78-1.167 1.657-2.007 3.722-2.52 6.195-.513 2.473-.77 5.32-.77 8.54 0 3.267.233 6.148.7 8.645.467 2.497 1.26 4.573 2.38 6.23 1.12 1.657 2.637 2.87 4.55 3.64 1.913.77 4.317 1.132 7.21 1.085z"
+            />
+            <path
+              d="M261.53 46.4c-1.167 0-2.1-.327-2.8-.98-.7-.653-1.225-1.563-1.575-2.73-.35-1.167-.572-2.567-.665-4.2a93.657 93.657 0 01-.14-5.32c0-1.913.047-3.687.14-5.32.093-1.633.315-3.033.665-4.2.35-1.167.875-2.077 1.575-2.73s1.633-.98 2.8-.98c1.96 0 3.313 1.027 4.06 3.08.747 2.053 1.12 5.437 1.12 10.15s-.373 8.097-1.12 10.15c-.747 2.053-2.1 3.08-4.06 3.08z"
+            />
+          </g>
+          <path
+            d="M291.14 52.77c2.1 0 3.967-.397 5.6-1.19 1.633-.793 2.963-2.123 3.99-3.99h.14V52h9.24V14.34h-9.66v24.99c0 4.153-1.703 6.23-5.11 6.23-1.447 0-2.497-.385-3.15-1.155s-.98-2.135-.98-4.095V14.34h-9.66v27.93c0 3.78.828 6.475 2.485 8.085 1.657 1.61 4.025 2.415 7.105 2.415zM326.21 52V29.39c0-1.26.21-2.322.63-3.185.42-.863.98-1.563 1.68-2.1.7-.537 1.47-.922 2.31-1.155.84-.233 1.68-.35 2.52-.35a31.648 31.648 0 013.01.14V13.5a11.42 11.42 0 00-1.75-.14c-2.007 0-3.71.548-5.11 1.645-1.4 1.097-2.59 2.555-3.57 4.375h-.14v-5.04h-9.24V52h9.66zM369.68 52.77c5.133 0 8.808-1.295 11.025-3.885 2.217-2.59 3.325-6.358 3.325-11.305h-9.24c0 3.08-.373 5.32-1.12 6.72-.747 1.4-1.937 2.1-3.57 2.1-1.073 0-1.948-.245-2.625-.735s-1.202-1.272-1.575-2.345c-.373-1.073-.63-2.438-.77-4.095-.14-1.657-.21-3.652-.21-5.985 0-2.193.07-4.095.21-5.705.14-1.61.397-2.94.77-3.99.373-1.05.933-1.843 1.68-2.38.747-.537 1.703-.805 2.87-.805.933 0 1.68.222 2.24.665.56.443.992 1.027 1.295 1.75a9.39 9.39 0 01.63 2.415c.117.887.175 1.797.175 2.73h9.24c0-4.48-1.132-8.027-3.395-10.64-2.263-2.613-5.635-3.92-10.115-3.92-2.24 0-4.293.303-6.16.91s-3.477 1.668-4.83 3.185c-1.353 1.517-2.403 3.547-3.15 6.09-.747 2.543-1.12 5.752-1.12 9.625 0 3.78.303 6.942.91 9.485.607 2.543 1.505 4.573 2.695 6.09 1.19 1.517 2.683 2.567 4.48 3.15 1.797.583 3.908.875 6.335.875z"
+            fill="none"
+          />
+          <g fill="none">
+            <path
+              d="M402.65 52.77c2.753 0 5.075-.397 6.965-1.19 1.89-.793 3.418-2.018 4.585-3.675 1.167-1.657 2.007-3.722 2.52-6.195.513-2.473.77-5.32.77-8.54 0-3.313-.233-6.207-.7-8.68-.467-2.473-1.26-4.55-2.38-6.23-1.12-1.68-2.637-2.928-4.55-3.745-1.913-.817-4.317-1.202-7.21-1.155-2.753 0-5.075.432-6.965 1.295-1.89.863-3.418 2.123-4.585 3.78-1.167 1.657-2.007 3.722-2.52 6.195-.513 2.473-.77 5.32-.77 8.54 0 3.267.233 6.148.7 8.645.467 2.497 1.26 4.573 2.38 6.23 1.12 1.657 2.637 2.87 4.55 3.64 1.913.77 4.317 1.132 7.21 1.085z"
+            />
+            <path
+              d="M402.65 46.4c-1.167 0-2.1-.327-2.8-.98-.7-.653-1.225-1.563-1.575-2.73-.35-1.167-.572-2.567-.665-4.2a93.657 93.657 0 01-.14-5.32c0-1.913.047-3.687.14-5.32.093-1.633.315-3.033.665-4.2.35-1.167.875-2.077 1.575-2.73s1.633-.98 2.8-.98c1.96 0 3.313 1.027 4.06 3.08.747 2.053 1.12 5.437 1.12 10.15s-.373 8.097-1.12 10.15c-.747 2.053-2.1 3.08-4.06 3.08z"
+            />
+          </g>
+          <g fill="none">
+            <path
+              d="M433.31 52.77c1.96 0 3.605-.35 4.935-1.05 1.33-.7 2.532-1.937 3.605-3.71h.14V52h9.24V2.02h-9.66v15.82h-.14c-1.027-1.493-2.182-2.613-3.465-3.36-1.283-.747-2.835-1.12-4.655-1.12-3.967 0-6.883 1.552-8.75 4.655s-2.8 8.155-2.8 15.155.933 12.017 2.8 15.05c1.867 3.033 4.783 4.55 8.75 4.55z"
+            />
+            <path
+              d="M436.46 45.56c-2.1 0-3.465-1.038-4.095-3.115-.63-2.077-.945-5.168-.945-9.275s.315-7.198.945-9.275c.63-2.077 1.995-3.115 4.095-3.115 2.147 0 3.535 1.038 4.165 3.115.63 2.077.945 5.168.945 9.275s-.315 7.198-.945 9.275c-.63 2.077-2.018 3.115-4.165 3.115z"
+            />
+          </g>
+          <g fill="none">
+            <path
+              d="M470.83 52.77c4.62 0 8.003-1.143 10.15-3.43 2.147-2.287 3.313-5.623 3.5-10.01h-8.68c-.28 2.38-.793 4.153-1.54 5.32-.747 1.167-1.937 1.75-3.57 1.75-.887 0-1.633-.245-2.24-.735-.607-.49-1.097-1.143-1.47-1.96s-.642-1.75-.805-2.8a21.153 21.153 0 01-.245-3.255v-3.01h19.11v-2.17c0-2.893-.187-5.518-.56-7.875-.373-2.357-1.073-4.363-2.1-6.02-1.027-1.657-2.438-2.94-4.235-3.85-1.797-.91-4.095-1.365-6.895-1.365-3.267 0-5.88.537-7.84 1.61s-3.465 2.52-4.515 4.34c-1.05 1.82-1.75 3.897-2.1 6.23a49.04 49.04 0 00-.525 7.28c0 2.38.105 4.76.315 7.14.21 2.38.782 4.527 1.715 6.44.933 1.913 2.38 3.453 4.34 4.62 1.96 1.167 4.69 1.75 8.19 1.75z"
+            />
+            <path
+              d="M475.8 28.9h-9.87v-1.47c0-.887.082-1.773.245-2.66a8.651 8.651 0 01.805-2.415 4.778 4.778 0 011.505-1.75c.63-.443 1.435-.665 2.415-.665s1.785.198 2.415.595c.63.397 1.12.98 1.47 1.75.35.77.595 1.703.735 2.8.14 1.097.233 2.368.28 3.815z"
+            />
+          </g>
+        </g>
+      </svg>
+
+      <nav>
+        <span>FRONT END - JS DEVELOPMENT</span>
+        <ul>
+          <li>
+            <a href="https://instagram.com/francois.jacquier">Instagram</a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/francois-jacquier">Linkedin</a>
+          </li>
+          <li>
+            <a href="https://github.com/fffjacquier?tab=repositories">Github</a>
+          </li>
+        </ul>
+      </nav>
+
+      <section class="active">
+        <ul>
+          <li>
+            <span>sportagraph</span>
+            <div class="panel">
+              <p>A digital asset manager for all-sports activities and sports sponsorships</p>
+              <div class="grid">
+                <div>
+                  <img
+                    class="resp"
+                    width="635"
+                    height="425"
+                    src="./medias/1602850403661.jpg"
+                    alt="Sportagraph website: image recognition detail view"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    width="635"
+                    height="351"
+                    src="./medias/sporta2.jpg"
+                    alt="Sportagraph website: publish to social network screen"
+                  />
+                </div>
+                <div class="features">
+                  <h2>lead dev front <em>2017-2021</em></h2>
+                  <div class="keywords">
+                    <span class="pill">angularjs</span>
+                    <span class="pill">es6</span>
+                    <span class="pill">vuejs</span>
+                    <span class="pill">ionic</span>
+                    <span class="pill">sass</span>
+                    <span class="pill">team of 4</span>
+                    <span class="pill">gulp</span>
+                  </div>
+                  <h3>main implementations</h3>
+                  <ul>
+                    <li class="feature">Social network publication with scheduling possibility</li>
+                    <li class="feature">Faces and Brands image recognition (AWS, Gvision)</li>
+                    <li class="feature">Video recognition exploration</li>
+                    <li class="feature">Migrate a feature from angularjs to vuejs</li>
+                  </ul>
+                  <div class="techstack">
+                    <h3>technical stack</h3>
+                    <p>
+                      Angularjs, angular material, Sass, Flexbox, Grunt, Gulp, Ionic, Requirejs, ES6, Nunjucks, Scala,
+                      Mongodb, Elastic Search, Redis, Docker, Bitbucket, JIRA, Confluence, Chef, WebTranslateIt, AWS
+                    </p>
+                  </div>
+                  <p>
+                    <a aria-label="Open sportagraph website" href="https://www.sportagraph.com/">sportagraph.com</a>
+                  </p>
+                </div>
+              </div>
+              <!-- <p>
+                Sportagraph is an “all-in-one” AI-based content management, collaboration and publishing software
+                designed to help communication teams with the ever-growing needs for real-time content availability,
+                multi-channel distribution and sponsorships activation.
+              </p> -->
+            </div>
+          </li>
+          <li>
+            <span>love books project</span>
+            <div class="panel">
+              <p>A project to share my love of books and to inspire to read more</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/love-books.jpg"
+                    alt="Love books website: homepage"
+                    width="566"
+                    height="1215"
+                  />
+                </div>
+                <div class="features">
+                  <h2>conception & development <em>2014-2017</em></h2>
+                  <div class="keywords">
+                    <span class="pill">react</span>
+                    <span class="pill">gatsbyjs</span>
+                    <span class="pill">styled components</span>
+                    <span class="pill">graphql</span>
+                    <span class="pill">jest</span>
+                    <span class="pill">cypress</span>
+                    <span class="pill">sanityjs</span>
+                    <span class="pill">netlify</span>
+                    <span class="pill">nodejs</span>
+                    <span class="pill">webpack</span>
+                  </div>
+                  <h3>main goals</h3>
+                  <ul>
+                    <li class="feature">Learn gatsbyjs and more of react ecosystem</li>
+                    <li class="feature">Build a nice looking site</li>
+                    <li class="feature">Share my love of books</li>
+                    <li class="feature">Inspire users to read more</li>
+                    <li class="feature">Back end in sanityjs</li>
+                    <li class="feature">Deployment and CI hooks with netlify</li>
+                  </ul>
+                  <p class="links">
+                    <a aria-label="Open the loving books demo" href="https://loving-books-b15aa8.netlify.app/"
+                      >loving-books.app</a
+                    >
+                    <a aria-label="See code on github" href="https://github.com/fffjacquier/gatsby-books"
+                      >see code on github</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>qapa</span>
+            <div class="panel">
+              <p>Job board then 100% online acting agency</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/qapa.jpg"
+                    alt="Qapa website: page candidat"
+                    width="630"
+                    height="559"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/qapa2.jpg"
+                    alt="Qapa website: page offre emploi"
+                    width="630"
+                    height="581"
+                  />
+                </div>
+                <div class="features">
+                  <h2>dev front then lead <em>2014-2017</em></h2>
+                  <div class="keywords">
+                    <span class="pill">angular 2+</span>
+                    <span class="pill">typescript</span>
+                    <span class="pill">angularjs</span>
+                    <span class="pill">bootstrap css + js</span>
+                    <span class="pill">less</span>
+                    <span class="pill">jasmine</span>
+                    <span class="pill">karma</span>
+                    <span class="pill">algolia</span>
+                    <span class="pill">adyen (payment)</span>
+                    <span class="pill">oauth2</span>
+                    <span class="pill">bugsnag</span>
+                    <span class="pill">d3js</span>
+                    <span class="pill">grunt</span>
+                  </div>
+                  <h3>main implementations</h3>
+                  <ul>
+                    <li class="feature">SPA from original php pages</li>
+                    <li class="feature">Moving from job board to 100% online interim</li>
+                    <li class="feature">Calendars</li>
+                    <li class="feature">Timesheets</li>
+                    <li class="feature">Backoffice in angular 2</li>
+                  </ul>
+                  <div class="techstack">
+                    <h3>technical stack</h3>
+                    <p>
+                      Angularjs, Angular 2+, Less, Algolia, Adyen, Bugsnag, Bootstrap CSS, ZendFramework 1 & 2,
+                      Apigility, Varnish, Oauth2, Nginx, Redis, RabbitMQ, Capistrano, Git, MariaDB, ElasticSearch
+                      (Solar), Linux, Vim, Nano
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>react-redux-sagas</span>
+            <div class="panel">
+              <p>An ecommerce project to dive into react, redux, sagas and more</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/crown.jpg"
+                    alt="React website: homepage"
+                    width="630"
+                    height="581"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/crown-cc.jpg"
+                    alt="React website: shop page"
+                    width="630"
+                    height="355"
+                  />
+                </div>
+                <div class="features">
+                  <h2>conception & development (udemy) <em>2021</em></h2>
+                  <div class="keywords">
+                    <span class="pill">react</span>
+                    <span class="pill">react hooks</span>
+                    <span class="pill">redux</span>
+                    <span class="pill">reselect</span>
+                    <span class="pill">thunk</span>
+                    <span class="pill">redux-sagas</span>
+                    <span class="pill">styled components</span>
+                    <span class="pill">graphql</span>
+                    <span class="pill">stripe</span>
+                    <span class="pill">jest</span>
+                    <span class="pill">nodejs</span>
+                    <span class="pill">express</span>
+                    <span class="pill">firebase</span>
+                    <span class="pill">heroku</span>
+                  </div>
+                  <h3>main goals</h3>
+                  <ul>
+                    <li class="feature">Learn react ecosystem</li>
+                    <li class="feature">Build a nice looking site</li>
+                    <li class="feature">Use firebase as database</li>
+                    <li class="feature">Back end payment with express</li>
+                    <li class="feature">Deployment and CI with heroku</li>
+                  </ul>
+                  <p class="links">
+                    <a aria-label="Open the crown.cc demo" href="https://crown-cc-live.herokuapp.com/"
+                      >crown-cc.heroku.app</a
+                    >
+                    <a aria-label="See code on github" href="https://github.com/fffjacquier/react-crown-cc-ecommerce"
+                      >see code on github</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>nextjs ecommerce</span>
+            <div class="panel">
+              <p>An ecommerce project to dive into react, next, apollo and keystone-next</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/learn-next-frontend-home.jpg"
+                    alt="React website: homepage"
+                    width="650"
+                    height="527"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/learn-next-frontend-cart.jpg"
+                    alt="React website: cart page"
+                    width="650"
+                    height="546"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/learn-next-backend-home.jpg"
+                    alt="React website: backend"
+                    width="750"
+                    height="445"
+                  />
+                </div>
+                <div class="features">
+                  <h2>development <em>2021</em></h2>
+                  <div class="keywords">
+                    <span class="pill">nextjs</span>
+                    <span class="pill">apollo client</span>
+                    <span class="pill">typescript</span>
+                    <span class="pill">styled components</span>
+                    <span class="pill">graphql</span>
+                    <span class="pill">stripe</span>
+                    <span class="pill">keystone-next</span>
+                    <span class="pill">jest</span>
+                    <span class="pill">enzyme</span>
+                    <span class="pill">react-test-renderer</span>
+                  </div>
+                  <h3>main goals</h3>
+                  <ul>
+                    <li class="feature">Dig into react, next, apollo and graphql ecosystem</li>
+                    <li class="feature">Build a nice looking site</li>
+                    <li class="feature">Back end with keystonejs for next</li>
+                    <li class="feature">Experiment with tests</li>
+                  </ul>
+                  <p class="links">
+                    <a aria-label="See code on github" href="https://github.com/fffjacquier/learn-nextjs-ecommerce"
+                      >see code on github</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>plan maison connectée</span>
+            <div class="panel">
+              <p>Draw your home plan and install connected devices in less than a minute</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/plan1.jpg"
+                    alt="Plan maison connectée: page 1"
+                    width="650"
+                    height="355"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/plan2.jpg"
+                    alt="Plan maison connectée: page 2"
+                    width="650"
+                    height="350"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/plan3.jpg"
+                    alt="Plan maison connectée: page 3"
+                    width="650"
+                    height="356"
+                  />
+                </div>
+                <div class="features">
+                  <h2>freelance architect & lead actionscript developer <em>2012-2013</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript3</span>
+                    <span class="pill">pdflib</span>
+                    <span class="pill">flash</span>
+                    <span class="pill">php</span>
+                  </div>
+                  <h3>main implementations</h3>
+                  <ul>
+                    <li class="feature">Project architecture</li>
+                    <li class="feature">AS3 development</li>
+                    <li class="feature">Team recruitment</li>
+                    <li class="feature">ASDoc Documentation</li>
+                  </ul>
+                  <p class="links">
+                    <a aria-label="See code on github" href="https://github.com/fffjacquier/editor2d"
+                      >see code on github</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>chloé tallot</span>
+            <div class="panel">
+              <p>Artiste française qui s'exprime sur de multiples supports</p>
+              <div class="grid">
+                <div>
+                  <img
+                    class="resp"
+                    src="./medias/chloetallot2013.jpg"
+                    alt="Chloe Tallot website: splash page video player fullpage"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/chloetallot2.jpg"
+                    alt="Chloe Tallot: works page"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>development actionscript & html <em>2008-2013</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">html-css</span>
+                    <span class="pill">php</span>
+                    <span class="pill">xml</span>
+                  </div>
+                  <h3>realisations</h3>
+                  <ul>
+                    <li class="feature">Custom video player full page</li>
+                    <li class="feature">Custom integration html css</li>
+                    <li class="feature">Thinking a backoffice fully integrated in the artist work process</li>
+                    <li class="feature">Training the artist for website updates autonomy</li>
+                  </ul>
+                  <p>
+                    <a aria-label="Open the site" href="http://www.chloetallot.com/">www.chloetallot.com</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>bllank custom skate shop</span>
+            <div class="panel">
+              <p>Build your own custom skate online by picking theme and drawing</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/bllank2011.jpg"
+                    alt="Bllank shop project"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>freelance development <em>2012</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                  </div>
+                  <h3>realisations</h3>
+                  <ul>
+                    <li class="feature">move existing code from actionscript2 to actionscript3</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>right people</span>
+            <div class="panel">
+              <p>A social network for hobbies, business and romance</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/rightpeople2.jpg"
+                    alt="Right people project"
+                    width="650"
+                    height="299"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/rightpeople_keys.jpg"
+                    alt="Right people project"
+                    width="650"
+                    height="330"
+                  />
+                </div>
+                <div class="features">
+                  <h2>freelance developments <em>2006-2011</em></h2>
+                  <div class="keywords">
+                    <span class="pill">javascript</span>
+                    <span class="pill">prototype</span>
+                    <span class="pill">jabber</span>
+                    <span class="pill">actionscript</span>
+                    <span class="pill">adobe air</span>
+                    <span class="pill">adobe flex</span>
+                    <span class="pill">ant</span>
+                  </div>
+                  <h3>realisations</h3>
+                  <ul>
+                    <li class="feature">Multiple iterations of the right people player (as2, as3, js)</li>
+                    <li class="feature">Website 2006, 2008, 2010</li>
+                    <li class="feature">A few months in Warsaw with the Polish team</li>
+                    <li class="feature">AS3 prototype in 2008</li>
+                    <li class="feature">Facebook prototype tool to get contacts from contacts in 2006</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>simply déco</span>
+            <div class="panel">
+              <p>Prototype of a site about style and decoration for the explocentre orange</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/simply.jpg"
+                    alt="Simply deco project"
+                    width="650"
+                    height="406"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/simply2.jpg"
+                    alt="Simply deco project"
+                    width="650"
+                    height="301"
+                  />
+                </div>
+                <div class="features">
+                  <h2>freelance actionscript & html development <em>2008</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">3d</span>
+                    <span class="pill">html css</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>zidane</span>
+            <div class="panel">
+              <p>The Zizou website, for sporever</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/zidane.jpg"
+                    alt="Zidane website"
+                    width="650"
+                    height="420"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2005, 2009</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>popstars</span>
+            <div class="panel">
+              <p>Webtv for M6 popstars and nouvelle star, with Actualys</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/popstars.jpg"
+                    alt="Popstars webtv"
+                    width="622"
+                    height="355"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2006</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>novaprod owl audio player</span>
+            <div class="panel">
+              <p>Audio player, for Bigyouth</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/novaprod.jpg"
+                    alt="Novaprod Owl audio player"
+                    width="650"
+                    height="509"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2006</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>tbwa\ france</span>
+            <div class="panel">
+              <p>Front end and back end development</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/tbwa-france.jpg"
+                    alt="TBWA\ website"
+                    width="600"
+                    height="350"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/tbwa-france-refs.jpg"
+                    alt="TBWA\ website"
+                    width="600"
+                    height="352"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2004-2005</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                    <span class="pill">html css</span>
+                    <span class="pill">php</span>
+                    <span class="pill">mysql</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>laure manaudou</span>
+            <div class="panel">
+              <p>Laure Manaudou website, for sporever</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/lauremanaudou.jpg"
+                    alt="Laure Manaudou website"
+                    width="622"
+                    height="355"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript development <em>2005</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>jc decaux</span>
+            <div class="panel">
+              <p>JC Decaux websites: corporate, airport and advertising</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/jcdecaux.jpg"
+                    alt="JS Decaux website"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/jcdecaux-airport.jpg"
+                    alt="JC Decaux Airport website"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2004-2005</em></h2>
+                  <div class="keywords">
+                    <span class="pill">html css</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>jeu k-motine</span>
+            <div class="panel">
+              <p>Flash game for the new K-Motine de Castelbajac</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/kmotine.jpg"
+                    alt="kmotine game"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript development <em>2004</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>catamaran orange</span>
+            <div class="panel">
+              <p>Catamaran Orange website for Jules Verne's challenge, for sporever</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/cata3.jpg"
+                    alt="Catamaran Orange website"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/cata1.jpg"
+                    alt="Catamaran Orange website"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2002-2004</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>archibat</span>
+            <div class="panel">
+              <p>Agence intérim et conseils spécialisée dans les métiers de l'architecture</p>
+              <div class="grid">
+                <div>
+                  <img loading="lazy" class="resp" src="./medias/archibat1.gif" alt="Archibat website" width="
+                  width="622" height="365" /> <img loading="lazy" class="resp" src="./medias/archibat3.gif"
+                  alt="Archibat website" width=" width="622" height="365" />
+                </div>
+                <div class="features">
+                  <h2>actionscript & html development <em>2002-2006</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">flash</span>
+                    <span class="pill">php</span>
+                    <span class="pill">mysql</span>
+                  </div>
+                  <h3>main realisations</h3>
+                  <ul>
+                    <li class="feature">Full flash site</li>
+                    <li class="feature">Back end php mysql</li>
+                    <li class="feature">Full html alternate version</li>
+                    <li class="feature">Job board (php mysql)</li>
+                    <li class="feature">Project Groupe de réflexion</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>les victoires de la musique</span>
+            <div class="panel">
+              <p>French music awards</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/victoires.gif"
+                    alt="Victoires de la musique's website"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>html development <em>2003-2005</em></h2>
+                  <div class="keywords">
+                    <span class="pill">html</span>
+                    <span class="pill">css</span>
+                    <span class="pill">javascript</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <span>babel@stal</span>
+            <div class="panel">
+              <p>Parisian web agency - from 1999 to end 2001</p>
+              <div class="grid">
+                <div>
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/voulzy.jpg"
+                    alt="Voulzy website"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/esalia.gif"
+                    alt="Esalia website"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/cai.jpg"
+                    alt="Credit agricole Indosuez fusion website"
+                    width="622"
+                    height="365"
+                  />
+                  <img
+                    loading="lazy"
+                    class="resp"
+                    src="./medias/bonheur1.jpg"
+                    alt="Les maisons du bonheur website"
+                    width="622"
+                    height="365"
+                  />
+                </div>
+                <div class="features">
+                  <h2>flash developer <em>1999-2001</em></h2>
+                  <div class="keywords">
+                    <span class="pill">actionscript</span>
+                    <span class="pill">animations flash</span>
+                    <span class="pill">flash generator</span>
+                    <span class="pill">html js css</span>
+                    <span class="pill">r&d</span>
+                    <span class="pill">integration php asp</span>
+                  </div>
+                  <h3>main realisations</h3>
+                  <ul>
+                    <li class="feature">laurent voulzy</li>
+                    <li class="feature">les maisons du bonheur</li>
+                    <li class="feature">esalia.com, le site de la société générale</li>
+                    <li class="feature">universal music</li>
+                    <li class="feature">ewalife</li>
+                    <li class="feature">napoleon.org</li>
+                    <li class="feature">manutan localizations</li>
+                    <li class="feature">ewalife</li>
+                    <li class="feature">PAI management</li>
+                    <li class="feature">CCF BPI</li>
+                    <li class="feature">Crédit Agricole Indosuez</li>
+                    <li class="feature">mon traducteur mon correcteur</li>
+                    <li class="feature">petits et grands</li>
+                    <li class="feature">and more...</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <footer>©2001-2021 Francois Jacquier</footer>
+    </div>
+
+    <script src="./anime.min.js"></script>
+    <script>
+      const blocksAfterAnim = ['nav', 'section', 'footer']
+
+      anime({
+        targets: 'svg',
+        opacity: 1,
+        duration: 250,
+      })
+      anime({
+        targets: 'svg path',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        easing: 'easeInOutSine',
+        duration: 900,
+        delay: function (el, i) {
+          return i * 10
+        },
+        direction: 'normal',
+        complete: (anim) => {
+          blocksAfterAnim.map((block) => (document.querySelector(block).style.display = 'block'))
+        },
+      })
+      anime({
+        targets: '.star',
+        rotate: 90,
+        opacity: 1,
+        duration: 10000,
+        delay: 800,
+      })
+
+      let lastPanel = null
+
+      const togglePanel = (evt) => {
+        const element = evt.target.closest('span')
+        if (element) {
+          const panel = element.nextElementSibling
+          if (!element.classList.contains('clicked')) {
+            element.classList.add('clicked')
+            panel.style.maxHeight = panel.scrollHeight + 'px'
+          } else {
+            element.classList.remove('clicked')
+            panel.style.maxHeight = null
+          }
+        }
+      }
+
+      document.querySelectorAll('section li > span').forEach((item) => {
+        item.addEventListener('click', togglePanel)
+      })
+    </script>
+  </body>
+</html>
