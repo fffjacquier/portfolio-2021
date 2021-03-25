@@ -15,7 +15,7 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "background_color": "#ffffff",
   "display": "minimal-ui",
   "scope": "/",
