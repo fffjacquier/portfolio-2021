@@ -27,5 +27,6 @@
       "type": "image/png",
       "sizes": "800x661"
     }
-  ]
+  ],
+  "prefer_related_applications": false
 }

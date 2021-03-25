@@ -100,6 +100,7 @@ addEventListener('install', (installEvent) => {
     updateCache()
       .then(() => doCacheThings())
       .then(() => skipWaiting())
+  )
 }
 
 addEventListener('activate', (event) => {
