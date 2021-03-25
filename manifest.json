@@ -1,0 +1,31 @@
+{
+  "short_name": "Portfolio",
+  "name": "Francois Jacquier Portfolio 2021",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#ffffff",
+  "display": "minimal-ui",
+  "scope": "/",
+  "theme_color": "#FFFFFF",
+  "description": "Francois Jacquier, front end developer portfolio 2021 version, season 23",
+  "screenshots": [
+    {
+      "src": "/icons/francois-jacquier-portfolio-dev.png",
+      "type": "image/png",
+      "sizes": "800x661"
+    }
+  ]
+}
