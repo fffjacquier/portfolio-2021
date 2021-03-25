@@ -111,9 +111,8 @@ addEventListener('activate', (event) => {
 })
 
 if (registration.navigationPreload) {
-  addEventListener('activate', async (event) => {
-    event.waitUntil(await registration.navigationPreload.enable())
-    clients.claim()
+  addEventListener('activate', (event) => {
+    event.waitUntil(registration.navigationPreload.enable())
   })
 }
 
