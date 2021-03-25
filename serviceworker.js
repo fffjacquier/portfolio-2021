@@ -1,5 +1,7 @@
 'use strict'
 
+const OFFLINE_URL = '/offline/index.html'
+
 const version = '20210325'
 const cacheName = version + '/static'
 const pagesCacheName = 'pages'
@@ -40,7 +42,7 @@ const updateCache = () =>
         '/medias/voulzy.jpg',
       ])
       // blocking elements
-      return cache.addAll(['/anime.min.js', '/offline'])
+      return cache.addAll(['/anime.min.js', OFFLINE_URL])
     })
     .catch(console.error)
 
@@ -87,6 +89,13 @@ const clearOldCaches = () =>
 
 addEventListener('install', (installEvent) => {
   installEvent.waitUntil(
+    (async () => {
+      const cache = await caches.open(cacheName);
+      // Setting {cache: 'reload'} in the new request will ensure that the
+      // response isn't fulfilled from the HTTP cache; i.e., it will be from
+      // the network.
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+    })()
     updateCache()
       .then(() => doCacheThings())
       .then(() => skipWaiting())
@@ -102,8 +111,9 @@ addEventListener('activate', (event) => {
 })
 
 if (registration.navigationPreload) {
-  addEventListener('activate', (event) => {
-    event.waitUntil(registration.navigationPreload.enable())
+  addEventListener('activate', async (event) => {
+    event.waitUntil(await registration.navigationPreload.enable())
+    clients.claim()
   })
 }
 
