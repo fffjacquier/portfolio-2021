@@ -9,7 +9,7 @@ const imagesCacheName = 'medias'
 const filetypesRegex = /\.(webp|jpe?g|png|gif|svg|mapbox)/
 const maxPages = 10 // Maximum number of pages to cache
 const maxImages = 25 // Maximum number of images to cache
-const timeout = 3000
+const timeout = 5000
 
 const cacheList = [cacheName, pagesCacheName, imagesCacheName]
 
@@ -89,16 +89,16 @@ const clearOldCaches = () =>
 
 addEventListener('install', (installEvent) => {
   installEvent.waitUntil(
-    (async () => {
-      const cache = await caches.open(cacheName)
-      // Setting {cache: 'reload'} in the new request will ensure that the
-      // response isn't fulfilled from the HTTP cache; i.e., it will be from
-      // the network.
-      await cache.add(new Request(OFFLINE_URL, { cache: 'reload' }))
-      updateCache()
-        .then(() => doCacheThings())
-        .then(() => skipWaiting())
-    })()
+    //(async () => {
+    //const cache = await caches.open(cacheName)
+    // Setting {cache: 'reload'} in the new request will ensure that the
+    // response isn't fulfilled from the HTTP cache; i.e., it will be from
+    // the network.
+    //await cache.add(new Request(OFFLINE_URL, { cache: 'reload' }))
+    updateCache()
+      .then(() => doCacheThings())
+      .then(() => skipWaiting())
+    //})()
   )
 })
 
