@@ -90,15 +90,15 @@ const clearOldCaches = () =>
 addEventListener('install', (installEvent) => {
   installEvent.waitUntil(
     (async () => {
-      const cache = await caches.open(cacheName);
+      const cache = await caches.open(cacheName)
       // Setting {cache: 'reload'} in the new request will ensure that the
       // response isn't fulfilled from the HTTP cache; i.e., it will be from
       // the network.
-      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+      await cache.add(new Request(OFFLINE_URL, { cache: 'reload' }))
+      updateCache()
+        .then(() => doCacheThings())
+        .then(() => skipWaiting())
     })()
-    updateCache()
-      .then(() => doCacheThings())
-      .then(() => skipWaiting())
   )
 })
 
