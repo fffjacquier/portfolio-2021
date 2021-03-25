@@ -1203,6 +1203,17 @@
       document.querySelectorAll('section li > span').forEach((item) => {
         item.addEventListener('click', togglePanel)
       })
+
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker
+          .register('/serviceworker.js')
+          .then(function (registration) {
+            console.log('Success!', registration.scope)
+          })
+          .catch(function (error) {
+            console.error('Failure!', error)
+          })
+      }
     </script>
   </body>
 </html>
