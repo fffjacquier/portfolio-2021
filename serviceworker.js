@@ -40,13 +40,9 @@ const updateCache = () =>
         '/medias/voulzy.jpg',
       ])
       // blocking elements
-      return cache.addAll([
-        '/anime.min.js',
-        '/offline',
-      ])
+      return cache.addAll(['/anime.min.js', '/offline'])
     })
     .catch(console.error)
-
 
 const doCacheThings = () => {
   const pages = []
@@ -79,14 +75,9 @@ const trimCache = (cacheName, maxItems) => {
 }
 
 const clearOldCaches = () =>
-  caches.keys()
-    .then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => !cacheList.includes(key))
-          .map((key) => caches.delete(key))
-      )
-    )
+  caches
+    .keys()
+    .then((keys) => Promise.all(keys.filter((key) => !cacheList.includes(key)).map((key) => caches.delete(key))))
 
 // life cycle sw
 // 1. download
@@ -94,14 +85,13 @@ const clearOldCaches = () =>
 // 3. wait
 // 4. activate
 
-
 addEventListener('install', (installEvent) => {
   installEvent.waitUntil(
     updateCache()
       .then(() => doCacheThings())
       .then(() => skipWaiting())
   )
-}
+})
 
 addEventListener('activate', (event) => {
   event.waitUntil(
@@ -116,7 +106,6 @@ if (registration.navigationPreload) {
     event.waitUntil(registration.navigationPreload.enable())
   })
 }
-
 
 addEventListener('fetch', (event) => {
   const request = event.request
@@ -218,4 +207,3 @@ addEventListener('message', (event) => {
     trimCache(imagesCacheName, maxImages)
   }
 })
-
