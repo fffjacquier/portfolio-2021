@@ -1,6 +1,6 @@
 {
   "short_name": "Portfolio",
-  "name": "Francois Jacquier Portfolio 2021",
+  "name": "Francois Jacquier Portfolio",
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -20,7 +20,7 @@
   "display": "minimal-ui",
   "scope": "/",
   "theme_color": "#FFFFFF",
-  "description": "Francois Jacquier, front end developer portfolio 2021 version, season 23",
+  "description": "Francois Jacquier, front end developer portfolio, season 27",
   "screenshots": [
     {
       "src": "/icons/francois-jacquier-portfolio-dev.png",
